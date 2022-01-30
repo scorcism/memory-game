@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SingleCard from './components/SingleCard';
 
 const cardImages = [
@@ -28,11 +28,31 @@ function App() {
     setTurns(0);
   }
 
+  // handle a choice
   const handChoice = (card) => {
-    console.log(card)
     choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
   }
 
+  // compare 2 selected cards
+  useEffect(()=>{
+    if(choiceOne && choiceTwo){
+      if(choiceOne.src === choiceTwo.src){
+        console.log("Those two selected card matched");
+        resetTurn()
+      }else{
+        console.log("Thode two selected card do not mateced")
+        resetTurn();
+      }
+    }
+  },[choiceOne,choiceTwo])
+
+
+  // reset choices & increase turn
+  const resetTurn = () =>{
+    setChoiceOne(null)
+    setChoiceTwo(null)
+    setTurns(prevTruns => prevTruns + 1)
+  }
 
   return (
     <>
